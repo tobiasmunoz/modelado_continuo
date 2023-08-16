@@ -8,7 +8,7 @@ using InteractiveUtils
 using Plots
 
 # ╔═╡ dde4dc5b-96f7-4de0-88b8-4b676e319aa1
-using GLMakie: Point2, streamplot, lines
+using GLMakie: Point2, streamplot!, lines!, Figure, Axis
 
 # ╔═╡ b6199e36-3c2f-11ee-023d-4fbd0a258bb1
 md"""
@@ -104,10 +104,27 @@ end
 # ╔═╡ bc648690-dddf-47d1-888b-5b350942f1da
 ejercicio2()
 
+# ╔═╡ d6fa0192-5dc6-4634-a0e2-028efeba3e8c
+begin
+	ft(t,u) = -50*( u - cos(t) )
+	tt = -2:0.001:2
+	fig_h1_h2 = plot()
+	
+	T_h1,U_h1 = euler(ft, tt[1], last(tt), 0.15, 0.04)
+	T_h2,U_h2 = euler(ft, tt[1], last(tt), 0.15, 0.03)
+	plot!(fig_h1_h2, T_h1, U_h1, label = "0.04")
+	plot!(fig_h1_h2, T_h2, U_h2, label = "0.03")
+end
+
 # ╔═╡ 2d157556-416b-441c-a614-1aeb013a2075
 begin
+	fig = Figure()
+	ax = Axis(fig[1,1])
 	ff(t , y ) = Point2(1 , -50( y - cos( t ) ) )
-	streamplot(ff ,0:1 ,0:2)
+	streamplot!(ax, ff ,-2:2 ,-2:2)
+	lines!(T_h1, U_h1, color = "pink")
+	lines!(T_h2, U_h2, color = "magenta")
+	fig
 end
 
 # ╔═╡ 03a92f65-9fab-4f4a-b7e0-0675b1cd15f1
@@ -1882,6 +1899,7 @@ version = "1.4.1+0"
 # ╟─1081562f-2448-47d2-947b-72acef95d354
 # ╠═9ff130f9-4b52-4aae-b8c7-149c0a3c4f7a
 # ╠═bc648690-dddf-47d1-888b-5b350942f1da
+# ╠═d6fa0192-5dc6-4634-a0e2-028efeba3e8c
 # ╠═dde4dc5b-96f7-4de0-88b8-4b676e319aa1
 # ╠═2d157556-416b-441c-a614-1aeb013a2075
 # ╟─03a92f65-9fab-4f4a-b7e0-0675b1cd15f1
