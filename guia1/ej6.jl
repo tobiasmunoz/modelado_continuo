@@ -11,19 +11,18 @@ using Plots
 md""" # Ejercicio 6 """
 
 # ╔═╡ bc2ef37a-e689-4d55-b33f-0bfbecad9296
-function euler_modif(f, g, t0, tf, u0, x0, h)
+function euler_modif(f, g, t0, tf, u0, h)
 	t = t0:h:tf 
 	n = length(t)
-	u = zeros(n)
-	x = zeros(n)
-	u[1] = u0
-	x[1] = x0
+	k = length(u0)
+	u = zeros(k,n)
+	u[:,1] = u0
 
 	for i in 1:n-1
-		u[i+1] = u[i] + h*f(t[i] + h/2, u[i] + h*f(t[i],u[i])/2 ) # Velocidad
-		x[i+1] = x[i] + h*g(t[i] + h/2, u[i] + h*g(t[i],u[i])/2 ) # Posicion
+		u[1,i+1] = u[1,i] + h*f(t[i] + h/2, u[1,i] + h*f(t[i],u[1,i])/2 ) # Velocidad
+		u[2,i+1] = u[2,i] + h*g(t[i] + h/2, u[1,i] + h*g(t[i],u[1,i])/2 ) # Posicion
 	end
-	return t,u,x
+	return t,u
 end
 
 # ╔═╡ d27d9e1c-0df3-4c35-b1a4-61d80ac632a3
@@ -50,11 +49,11 @@ begin
 
 	for v0 in V0
 		
-		T_temp, U_temp, X_temp = euler_modif(f, k, t0, tf, v0, x0, h)
+		T_temp, U_temp = euler_modif(f, k, t0, tf, [v0,x0], h)
 		
-		plot!(vel_plot ,T_temp, U_temp, label = "v0 = $v0", title = "v(t)", xlabel = "t", ylabel = "v")
+		plot!(vel_plot ,T_temp, U_temp[1,:], label = "v0 = $v0", title = "v(t)", xlabel = "t", ylabel = "v")
 		
-		plot!(pos_plot ,T_temp, X_temp, label = "v0 = $v0", title = "y(t)", xlabel = "t", ylabel = "y")
+		plot!(pos_plot ,T_temp, U_temp[2,:], label = "v0 = $v0", title = "y(t)", xlabel = "t", ylabel = "y")
 		
 	end
 	
