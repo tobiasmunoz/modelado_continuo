@@ -35,15 +35,15 @@ end
 
 # ╔═╡ 6c0cf66e-dc56-4f37-9bbf-59309d117e66
 begin
-	masas = [1.9891e30, 5.97e24, 7.3477e22] # Sol, Tierra, Luna
+	masas = [0.4982, 1.9891e30, 5.97e24, 7.3477e22] # G constante, Sol, Tierra, Luna
 	dts = 1.49597887e11 # Distancia Tierra-Sol
 	dtl = 3.844e8 # Distancia Tierra-Luna
 	vt = 2*π*dts/365 # Velocidad tangencial de la Tierra en torno al Sol
 	vls = vt # Velocidad tangencial de la Luna en torno al Sol
 	vlt = 2*π*dtl/28 # Velocidad correspondiente a la rotacion entorno a Tierra
-	ts = [0.,365.]
+	ts = (0.,365.)
 	
-	U₀ = [ [0,0,0,0], [dts, 0, 0, vt], [dts, -vlt, dtl, vls ]] # Sol, Tierra, Luna
+	U₀ = [ [0,0,0,0], [dts, 0, 0, vt], [dts, -vlt, dtl, vls ]] # Sol, Tierra, Luna condiciones iniciales
 end
 
 # ╔═╡ a00ecd28-da5b-4345-81a7-d9bdee03c580
